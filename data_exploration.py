@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 import matplotlib.pyplot as plt
-G_API = 'AIzaSyDPvnBQie8O8ujlU_BTGVQKMihXOQ8Ycvs'
+G_API = ''
 
 # reading csv file
 listings = pd.read_csv("data/listings_sc.csv")
