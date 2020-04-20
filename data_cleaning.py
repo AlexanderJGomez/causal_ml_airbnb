@@ -4,6 +4,7 @@ data = data.loc[~data['zestimate'].isna()]
 data['zestimate'] = data['zestimate'].str.replace(',', '')
 data['zestimate'] = data['zestimate'].str.replace('$', '')
 data['zestimate'] = data['zestimate'].astype(float)
+
 data.reset_index(drop=True, inplace=True)
 print(data.columns.values)
 
@@ -17,6 +18,8 @@ print(data.bathrooms.unique())
 data['price'] = data['price'].str.replace('$', '')
 data['price'] = data['price'].str.replace(',', '')
 data['price'] = data['price'].astype(float)
+data = data.loc[data['price'] < 1000]
+data.reset_index(drop=True, inplace=True)
 print(data.price.unique())
 
 
@@ -78,4 +81,5 @@ data['ROI'] = roi(zestimate=data['zestimate'],
    )
 #print(min(data.ROI.unique()), max(data.ROI.unique()))
 print(data.columns.values)
+
 data.to_csv("data/cleansed_data.csv")
