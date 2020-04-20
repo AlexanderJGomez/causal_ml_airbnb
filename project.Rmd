@@ -11,6 +11,13 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 df <- read.csv("data/listings.csv")
 ```
 
+```{r}
+
+as.numeric('$90.00')
+
+```
+
+
 
 ```{r}
 target_cols <- c("zipcode",
@@ -20,6 +27,13 @@ target_cols <- c("zipcode",
                  "neighbourhood_cleansed",
                  "latitude",
                  "longitude")
+row <- df[df$latitude == 37.36767,]
+
+```
+
+
+```{r}
+
 
 df <- data[, target_cols]
 colnames(df)
