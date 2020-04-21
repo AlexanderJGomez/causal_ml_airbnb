@@ -13,19 +13,64 @@ library(Rgraphviz)
 # library(magrittr) # needs to be run every time you start R and want to use %>%
 # library(dplyr)    # alternatively, this also loads %>%
 df <- read.csv("data/cleansed_data.csv")
-df$Baths = as.factor(as.character(df$Baths))
-df$Beds = as.factor(as.character(df$Beds))
+df$BPB = as.factor(as.character(df$BPB))
+
 df
+nrow(df)
 # sapply(df, class)
 ```
 
 ```{r}
-dag <- model2network("[Neigh][Beds|Type][Baths|Type][Type][Zest|Beds:Baths:Neigh:Type][Rent|Beds:Baths:Neigh][ROI|Zest:Rent]")
+dag <- model2network("[Neigh][Type][BPB|Type][Zest|BPB:Neigh:Type][Rent|BPB:Neigh][ROI|Zest:Rent]")
 graphviz.plot(dag)
 ```
 ```{r}
 fit = bn.fit(dag, df)
 fit
+
 ```
+```{r}
+d_sep <- bnlearn:::dseparation
+vars <- nodes(dag)
+pairs <- combn(x = vars, 2, list)
+arg_sets <- list()
+for(pair in pairs){
+  others <- setdiff(vars, pair)
+  conditioning_sets <- unlist(lapply(0:4, function(.x) combn(others, .x, list)), recursive = F)
+  for(set in conditioning_sets){
+    args <- list(x = pair[1], y = pair[2], z = set)
+    arg_sets <- c(arg_sets, list(args))
+  }
+}
+
+
+d_sep_list <- list()
+for(arg in arg_sets){
+  if(d_sep(bn=dag, x=arg$x, y=arg$y, z=arg$z)){
+    args <- list(x = arg$x, y = arg$y, z = arg$z)
+    d_sep_list <- c(d_sep_list, list(args))
+  }
+
+}
+#cat(toString(d_sep_list[[10]]$x), " is d-seperated from ", toString(d_sep_list[[10]]$y), " by ", toString(d_sep_list[[10]]$z))
+d_sep_list
+
+```
+```{r}
+for(arg in d_sep_list){
+  test_outcome <- ci.test(arg$x, arg$y, arg$z, df)
+  alpha <- .05
+  if(test_outcome$p.value < alpha){
+    print(test_outcome)
+    print(test_outcome$p.value)
+  }
+}
+```
+```{r}
+dag$Beds
+# sample = rbn(dag, 50000)
+# sample
+```
+
 
 
