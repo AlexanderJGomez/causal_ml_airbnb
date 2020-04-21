@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 G_API = ''
 
 # reading csv file
-listings = pd.read_csv("data/listings_sc.csv")
+listings = pd.read_csv("data/whatevr.csv")
 
 
 
@@ -34,15 +34,18 @@ def generate_csv_data(listings):
 
 print(list(listings.columns.values))
 print('######################################')
-print(listings.is_location_exact.unique())
-print(listings.room_type.unique())
+#print(listings.is_location_exact.unique())
+print(listings.neighbourhood.unique())
 
 
-
+print(len(listings))
 
 filtered_listings = listings.loc[listings['property_type'].isin(['Condominium','Townhouse'])]
-filtered_listings = filter_dataframe(filtered_listings, 'room_type', 'Entire home/apt')
-
+filtered_listings = filter_dataframe(listings, 'room_type', 'Entire home/apt')
+filtered_listings = filtered_listings.loc[filtered_listings['neighbourhood'].isin(['Redwood City', 'East Palo Alto', 'Menlo Park', 'San Carlos'])]
+filtered_listings = filtered_listings.loc[filtered_listings['bedrooms'] < 4]
+print(len(filtered_listings))
+'''
 filtered_listings = filtered_listings[["zipcode",
                  "bedrooms",
                  "bathrooms",
@@ -57,4 +60,5 @@ print(filtered_listings)
 
 #print(filtered_listings.neighbourhood_cleansed.unique())
 
-print(len(generate_csv_data(filtered_listings).address.unique()))
+#print(len(generate_csv_data(filtered_listings).address.unique()))
+'''

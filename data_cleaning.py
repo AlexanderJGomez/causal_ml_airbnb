@@ -1,5 +1,6 @@
 import pandas as pd
-data = pd.read_csv("data/data.csv")
+import matplotlib.pyplot as plt
+data = pd.read_csv("data/CS7290_listings_sc_0719 - augmented_data_sc_0719.csv")
 data = data.loc[~data['zestimate'].isna()]
 data['zestimate'] = data['zestimate'].str.replace(',', '')
 data['zestimate'] = data['zestimate'].str.replace('$', '')
@@ -13,23 +14,26 @@ print(data.columns.values)
 # print(data.zipcode.unique())
 
 print(data.loc[data['neighbourhood_cleansed'] == 'Unincorporated Areas'])
-data['neighbourhood_cleansed'][79] = 'Palo Alto'
+data['neighbourhood_cleansed'][2] = 'San Jose'
 print(data.neighbourhood_cleansed.unique())
 
+data = data.loc[data['bedrooms'] < 4]
 data['bedrooms'] = data['bedrooms'].astype(str)
+
 print(data.bedrooms.unique())
+data['bathrooms'] = round(data['bathrooms']).astype(int)
+data = data.loc[data['bathrooms'] < 4]
 data['bathrooms'] = data['bathrooms'].astype(str)
 print(data.bathrooms.unique())
 
 data['price'] = data['price'].str.replace('$', '')
 data['price'] = data['price'].str.replace(',', '')
 data['price'] = data['price'].astype(float)
-data = data.loc[data['price'] < 1000]
+#data = data.loc[data['price'] < 1000]
 data.reset_index(drop=True, inplace=True)
 print(data.price.unique())
 
-data = data.drop(columns=['Unnamed: 0', 'zipcode', 'latitude', 'longitude', 'room_type', 'is_location_exact' , 'address'])
-
+data = data.drop(columns=['Unnamed: 0', 'zipcode', 'latitude', 'longitude', 'room_type', 'is_location_exact', 'address'])
 
 
 def calculate_monthly(P, mortgage_rate, num_years):
@@ -74,7 +78,21 @@ data['ROI'] = roi(zestimate=data['zestimate'],
     num_years=NUM_YEARS,
     down_payment_percent=DOWN_PAYMENT
    )
-#print(min(data.ROI.unique()), max(data.ROI.unique()))
+print(min(data.ROI.unique()), max(data.ROI.unique()))
+print(data.columns.values)
+data = data.drop(columns=['Unnamed: 14', 'Unnamed: 15', 'id'])
+
 data.columns = ['Beds', 'Baths', 'Rent', 'Neigh', 'Type', 'Zest', 'ROI']
 print(data.columns.values)
-data.to_csv("data/cleansed_data.csv",index=False)
+
+for index, row in data.iterrows():
+     if row['Neigh'] in ['Palo Alto', 'Mountain View', 'Los Altos', 'Milpitas', 'Sunnyvale', 'Santa Clara']:
+         data['Neigh'][index] = 'Neigh_North'
+     if row['Neigh'] in ['Campbell', 'Cupertino', 'Saratoga', 'San Jose']:
+         data['Neigh'][index] = 'Neigh_South'
+
+print(data['Neigh'])
+data['BPB'] = (data['Beds'].astype(int) + data['Baths'].astype(int)).astype(str)
+data = data.drop(columns=['Beds', 'Baths'])
+data.to_csv("data/cleansed_data_2.csv",index=False)
+
