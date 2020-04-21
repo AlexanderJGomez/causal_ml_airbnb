@@ -1,0 +1,31 @@
+---
+title: "R Notebook"
+author: shawshank
+date: 4/20/20
+output: html_document
+---
+```{r}
+library(bnlearn)
+library(Rgraphviz)
+`:=` <- `<-`
+# install.packages("magrittr") # package installations are only needed the first time you use it
+# install.packages("dplyr")    # alternative installation of the %>%
+# library(magrittr) # needs to be run every time you start R and want to use %>%
+# library(dplyr)    # alternatively, this also loads %>%
+df <- read.csv("data/cleansed_data.csv")
+df$Baths = as.factor(as.character(df$Baths))
+df$Beds = as.factor(as.character(df$Beds))
+df
+# sapply(df, class)
+```
+
+```{r}
+dag <- model2network("[Neigh][Beds|Type][Baths|Type][Type][Zest|Beds:Baths:Neigh:Type][Rent|Beds:Baths:Neigh][ROI|Zest:Rent]")
+graphviz.plot(dag)
+```
+```{r}
+fit = bn.fit(dag, df)
+fit
+```
+
+

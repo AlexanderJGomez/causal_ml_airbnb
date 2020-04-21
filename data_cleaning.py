@@ -9,10 +9,16 @@ data.reset_index(drop=True, inplace=True)
 print(data.columns.values)
 
 
-data['zipcode'][75] = 94043
-print(data.zipcode.unique())
+# data['zipcode'][75] = 94043
+# print(data.zipcode.unique())
 
+print(data.loc[data['neighbourhood_cleansed'] == 'Unincorporated Areas'])
+data['neighbourhood_cleansed'][79] = 'Palo Alto'
+print(data.neighbourhood_cleansed.unique())
+
+data['bedrooms'] = data['bedrooms'].astype(str)
 print(data.bedrooms.unique())
+data['bathrooms'] = data['bathrooms'].astype(str)
 print(data.bathrooms.unique())
 
 data['price'] = data['price'].str.replace('$', '')
@@ -21,17 +27,6 @@ data['price'] = data['price'].astype(float)
 data = data.loc[data['price'] < 1000]
 data.reset_index(drop=True, inplace=True)
 print(data.price.unique())
-
-
-print(data.loc[data['neighbourhood_cleansed'] == 'Unincorporated Areas'])
-data['neighbourhood_cleansed'][79] = 'Palo Alto'
-print(data.neighbourhood_cleansed.unique())
-
-print(data.property_type.unique())
-
-print(data.room_type.unique())
-
-print(len(data.zestimate.unique()))
 
 data = data.drop(columns=['Unnamed: 0', 'zipcode', 'latitude', 'longitude', 'room_type', 'is_location_exact' , 'address'])
 
@@ -80,6 +75,6 @@ data['ROI'] = roi(zestimate=data['zestimate'],
     down_payment_percent=DOWN_PAYMENT
    )
 #print(min(data.ROI.unique()), max(data.ROI.unique()))
+data.columns = ['Beds', 'Baths', 'Rent', 'Neigh', 'Type', 'Zest', 'ROI']
 print(data.columns.values)
-
-data.to_csv("data/cleansed_data.csv")
+data.to_csv("data/cleansed_data.csv",index=False)
