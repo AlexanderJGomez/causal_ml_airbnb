@@ -30,7 +30,7 @@ def roi(zestimate, inflation_rate, mortgage_rate, num_years, rental_price, down_
 
 INFLATION_RATE = 0.028
 MORTGAGE_RATE = 0.036
-NUM_YEARS = 30
+NUM_YEARS = 15
 DOWN_PAYMENT = 0.20
 
 
@@ -94,5 +94,6 @@ for index, row in data.iterrows():
           data['Neigh'][index] = 'Neigh_South'
 
 data['BPB'] = (data['Beds'].astype(int) + data['Baths'].astype(int)).astype(str)
+data['latlng'] = data['latitude'].multiply(data['longitude'])
 data.to_csv("data/cleansed_data.csv",index=False)
 
