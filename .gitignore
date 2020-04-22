@@ -1,2 +1,9 @@
 .DS_Store
 .ipynb_checkpoints
+.gitignore
+zillow.py
+.idea
+data/augmented_data.csv
+data/augmented_data.csv
+venv
+data/listings.csv

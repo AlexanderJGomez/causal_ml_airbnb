@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 G_API = ''
 
 # reading csv file
-listings = pd.read_csv("data/whatevr.csv")
+listings = pd.read_csv("data/listings.csv")
 
 
 
@@ -28,7 +28,7 @@ def generate_csv_data(listings):
         address = get_address(row['latitude'], row['longitude'])
         addresses.append(address)
     listings['address'] = pd.Series(addresses)
-    listings.to_csv('data/augmented_data_sc.csv')
+    listings.to_csv('data/augmented_data.csv')
     return listings
 
 
@@ -42,8 +42,6 @@ print(len(listings))
 
 filtered_listings = listings.loc[listings['property_type'].isin(['Condominium','Townhouse'])]
 filtered_listings = filter_dataframe(listings, 'room_type', 'Entire home/apt')
-filtered_listings = filtered_listings.loc[filtered_listings['neighbourhood'].isin(['Redwood City', 'East Palo Alto', 'Menlo Park', 'San Carlos'])]
-filtered_listings = filtered_listings.loc[filtered_listings['bedrooms'] < 4]
 print(len(filtered_listings))
 '''
 filtered_listings = filtered_listings[["zipcode",
