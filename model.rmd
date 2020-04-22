@@ -4,11 +4,14 @@ author: shawshank
 date: 4/20/20
 output: html_document
 ---
+# Choosing the DAG that best represents the data
+
+### Reading data
 ```{r}
 library(bnlearn)
 library(Rgraphviz)
 # df <- read.csv("data/cleansed_data.csv")
-df <- read.csv("data/test.csv")
+df <- read.csv("data/cleansed_data.csv")
 
 df$BPB = as.factor(as.character(df$BPB))
 df$Beds = as.factor(as.character(df$Beds))
@@ -16,20 +19,24 @@ df$Baths = as.factor(as.character(df$Baths))
 nrow(df)
 ```
 
-```{r}
-colnames(df)
+### Exploring Different DAGs
 
-```
+We explored the following causal DAGs for our analysis:
 
 
-```{r}
-model <- lm(Rent ~ Neigh * BPB, df)
-model
-predict(model, df[4:6,])
-df[4:6,c("BPB", "Neigh", "Rent")]
+DAG1 : This DAG split up the regions based on neighbourhoods. We split up the neighbourhoods into 2 broad categories, neighbourhood north and neighbourhood south. 'Palo Alto', 'Mountain View', 'Los Altos', 'Milpitas', 'Sunnyvale', 'Santa Clara' were classified as neighbourhood north and 'Campbell', 'Cupertino', 'Saratoga', 'San Jose' were classified as neighbourhood south.
 
-```
 
+DAG2 : In this model we considered the latitude and longitude as separate nodes replacing the discrete neighbourhoods. We did this because we thought a continuous function for the location will allow the model to be more accurate compared to a discrete neighbourhood categorization.
+
+
+DAG3 : In this model we combined the latitude and longitude nodes from DAG2 to a single node by multiplying their values. We did this to reduce the model complexity of DAG2 but preserving the continuous nature of the location function.
+
+
+DAG4 : This model is similar to DAG3 with the edge between Neigh and Rent removed. We did this because when we looked at the conditional independence tests(on the data) for DAG3 we found out that latlng does not effect Rent.
+
+
+DAG5 : This model is This model is similar to DAG1 with the edge between Neigh and Rent removed. We did this because when we looked at the conditional independence tests(on the data) for DAG1 we found out that Neigh does not effect Rent.
 
 
 ```{r}
@@ -38,27 +45,28 @@ dag2 <- model2network("[latitude][longitude][BPB][Zest|BPB:latitude:longitude][R
 dag3 <- model2network("[latlng][Type][BPB|Type][Zest|BPB:latlng:Type][Rent|BPB:latlng][ROI|Zest:Rent]")
 dag4 <- model2network("[latlng][BPB][Zest|BPB:latlng][Rent|BPB:latlng][ROI|Zest:Rent]")
 dag5 <- model2network("[Neigh][BPB][Zest|BPB:Neigh][Rent|BPB][ROI|Zest:Rent]")
+dag6 <- model2network("[Neigh][Type][BPB|Type][Zest|BPB:Neigh:Type][Rent|BPB:Neigh][ROI|Zest:Rent]")
 
-
+dags <- list()
 dags[[1]] <- dag1
 dags[[2]] <- dag2
 dags[[3]] <- dag3
 dags[[4]] <- dag4
 dags[[5]] <- dag5
+dags[[6]] <- dag6
 
 graphviz.plot(dag1)
 graphviz.plot(dag2)
 graphviz.plot(dag3)
 graphviz.plot(dag4)
 graphviz.plot(dag5)
+graphviz.plot(dag6)
 
 
 
 ```
 
-
-
-
+### Fitting the data to the models
 ```{r}
 
 fit_models <- list()
@@ -68,9 +76,9 @@ for (i in 1:length(dags)) {
 
 ```
 
-
+### Listing the subsets for all possible pairs
 ```{r}
-d_sep <- bnlearn:::dseparation
+
 get_subsets <- function(model, subset_size){
     vars <- nodes(model)
     pairs <- combn(x = vars, 2, list)
@@ -97,9 +105,9 @@ for (i in 1:length(dags)) {
 ```
 
 
-
+### Evaluating d-separtaions
 ```{r}
-
+d_sep <- bnlearn:::dseparation
 get_d_sep_statments <- function (model, subsets){
   d_sep_list <- list()
   for(arg in subsets){
@@ -121,7 +129,7 @@ for (i in 1:length(dags)) {
 ```
 
 
-
+### Evaluating conditional independence tests on the data
 ```{r}
 get_CI_sets = function(subsets, data){
   ci_sets = list()
@@ -167,7 +175,7 @@ for (c in ci_test) {
 ```
 
 
-
+### Evaluating the Global Markov Property and the Faithfulness assumption
 ```{r}
 eval_GM_and_F <- function (d_sep_list, ci_sets){
     count <- 0
@@ -192,11 +200,5 @@ for (i in 1:length(dags)) {
 }
 
 ```
-
-```{r}
-
-fit_models[[5]]
-
-```
-
-
+### Conclusion
+We picked model number 5 to answer queries because it had gave the best results for the Global Markov Property and the Faithfulness assumption.
