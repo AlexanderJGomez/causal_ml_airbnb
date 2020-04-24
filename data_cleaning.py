@@ -35,9 +35,9 @@ DOWN_PAYMENT = 0.20
 
 
 
-data_1 = pd.read_csv("data/data.csv")
+data_1 = pd.read_csv("data/data_with_estimates_0320.csv")
 data_1 = data_1.drop(columns=['Unnamed: 0', 'zipcode', 'room_type', 'is_location_exact', 'address'])
-data_2 = pd.read_csv("data/CS7290_listings_sc_0719 - augmented_data_sc_0719.csv")
+data_2 = pd.read_csv("data/data_with_estimates_0719.csv")
 data_2 = data_2.drop(columns=['Unnamed: 0', 'zipcode', 'room_type', 'is_location_exact', 'address', 'Unnamed: 14', 'Unnamed: 15', 'id'])
 data = pd.concat([data_1, data_2])
 

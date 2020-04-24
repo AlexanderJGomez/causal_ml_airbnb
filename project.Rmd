@@ -10,7 +10,7 @@ library(Rgraphviz)
 
 
 ```{r}
-df <- read.csv("data/listings.csv")
+df <- read.csv("data/listings_0320.csv")
 
 target_cols <- c("bedrooms",
                  "bathrooms",
