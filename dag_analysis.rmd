@@ -7,7 +7,7 @@ output: html_document
 # Choosing the DAG that best represents the data
 
 ### Reading data
-```{r}
+```{r, warning=FALSE}
 library(bnlearn)
 library(Rgraphviz)
 # df <- read.csv("data/cleansed_data.csv")
@@ -130,7 +130,7 @@ for (i in 1:length(dags)) {
 
 
 ### Evaluating conditional independence tests on the data
-```{r}
+```{r, warning=FALSE}
 get_CI_sets = function(subsets, data){
   ci_sets = list()
   for(arg in subsets){
@@ -153,7 +153,7 @@ for (i in 1:length(dags)) {
 
 ```
 
-
+If we want to find pairs that are CI but not D-separated. Here we look at it for our best DAG
 
 ```{r}
 
@@ -168,7 +168,7 @@ for (c in ci_test) {
       }
   }
   if (!found & length(c$z) == 0) {
-    print(c)
+    # print(c)
   }
 }
 
@@ -176,6 +176,7 @@ for (c in ci_test) {
 
 
 ### Evaluating the Global Markov Property and the Faithfulness assumption
+
 ```{r}
 eval_GM_and_F <- function (d_sep_list, ci_sets){
     count <- 0
