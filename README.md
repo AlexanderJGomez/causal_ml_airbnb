@@ -4,7 +4,7 @@ Building a causal model from Airbnb listing data to be able to understand what f
 [Airbnb data](http://insideairbnb.com/get-the-data.html)
 
 
-# Causal Models of a Particular Domain (Example Project)
+# Causal Model of Santa Clara County Airbnb Data
 
 ## Authors 
 
