@@ -35,11 +35,12 @@ The data from these two files were combined into [cleansed_data.csv](data/cleans
 
 ### Causal DAG exploration and evaluation
 
-In the file `model.rmd` we explore various DAG structures and evaluate each based on Global Markov and faithfulness properties, which can be found at the end of the file.
+In the file `dag_analysis.rmd` we explore various DAG structures and evaluate each based on Global Markov and faithfulness properties, which can be found at the end of the file.
 
 ### Model Building using Pyro
 
 In the file `model.ipynb` we build our causal models in pyro, analyze the results from them, and provide some next steps for improving them.
+
 
 I am going to use this section to explain how to set up your project directory.
 
