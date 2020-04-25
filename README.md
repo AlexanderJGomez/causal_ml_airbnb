@@ -14,7 +14,7 @@ Shashank Viswanadha, Alexander Gomez
 
 We used Airbnb listing rental data to build a causal model of ROI. We started by pulling the data from Airbnb and then manually labeling property price estimates. We used this data to test multiple DAG architectures and then used the best DAG architecture to build a statistical model in Pyro. We then used the statstical model to learn about the causal effects of different settings in our data.
 
-[See video abstract](https://www.youtube.com/watch?v=o3GfnEjTdIQ)
+[See video abstract](https://youtu.be/adiQcwsGX2Y)
 
 ## How to explore this project
 
@@ -40,22 +40,7 @@ In the file `dag_analysis.rmd` we explore various DAG structures and evaluate ea
 
 In the file `model.ipynb` we build our causal models in pyro, analyze the results from them, and provide some next steps for improving them.
 
-
-I am going to use this section to explain how to set up your project directory.
-
-Put your project in the appropriate project directory. Create a subdirectory for your project and give it a clear name that reflects specific elements of your project.  It should not conflict with other group's names, obviously.  For example, some students who analyzed Airbnb data analyzed Bay Area real estate, while others analyzed Austin TX.  So good subdirectory names would be "airbnb model bay area" and "airbnb model austin".
-
-Set up your project directory as you see fit.  The two most important things are **presentation** and **reproducibility**.
-
-### Presentation
-
-Presentation means you have done your best to make it easy for future students to understand and learn from your work.  A bad presentation is having many badly named notebooks with lots of code, and little text explanation.  NEU students will be penalized for poor presentation.
-
-Presentation also means clean code.  **Python code must adhere to [flake8](http://flake8.pycqa.org/en/latest/index.html#quickstart)**, even if the code is inside Jupyter notebooks.  R code should follow R conventions.  I suggest the [tidyverse style guide](https://style.tidyverse.org/).
-
-**Avoid unneccesary code and output in notebooks**.  If loading a package in your R notebook causes a bunch of warnings and messages to be printed, turn message printing and warning printing off in that block of code.  Don't import libraries in your Jupyter notebook if you are not going to use them.  Don't have `!pip install ...` lines, just tell us what to install.  Don't have long-run on lines
-
-### Reproducibility
+### Project Libraries
 
 Libraries that need to be installed:
 
