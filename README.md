@@ -8,12 +8,11 @@ Building a causal model from Airbnb listing data to be able to understand what f
 
 ## Authors 
 
-[Robert Osazuwa Ness](https://www.linkedin.com/in/osazuwa/), [Author 2
-](https://towardsdatascience.com), [Author 3](https://www.khoury.northeastern.edu)
+Shashank Viswanadha, Alexander Gomez
 
 ## Abstract
 
-People often use predictive models to recommend actions within a particular domain.  However, those predictions are biased by confounding.  Addressing this issue requires a causal model.  We built a causal generative model to analyze data in this domain.  We used public data to validate the testable implications of the structure of the model.  We then chose a parametric form of the model that performed well in posterior predictive checks.  We show the causal effects of the action on the outcome and provide a simple Web app that illustrates an application of the proposed method.
+We used Airbnb listing rental data to build a causal model of ROI. We started by pulling the data from Airbnb and then manually labeling property price estimates. We used this data to test multiple DAG architectures and then used the best DAG architecture to build a statistical model in Pyro. We then used the statstical model to learn about the causal effects of different settings in our data.
 
 [See video abstract](https://www.youtube.com/watch?v=o3GfnEjTdIQ)
 
@@ -58,12 +57,16 @@ Presentation also means clean code.  **Python code must adhere to [flake8](http:
 
 ### Reproducibility
 
-**Reproducibility** means that someone can easily clone this repo and reproduce your work.  Ideally, you should have notebooks (R Notebook or Jupyter notebooks) that you can be run directly.
+Libraries that need to be installed:
 
-* Make it clear what libraries need to be installed.
-* You can put data, figures, code, slides, and other files in their own directories.  If you do, explain them in your version of this README.md.
-* If you want to get fancy, you can [wrap your analysis in an R package](https://www.r-bloggers.com/creating-an-analysis-as-a-package-and-vignette/), or a Python library, or use the [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/).  But this is purely a matter of personal preference. 
+Python:
+- Pandas
+- Numpy
+- Pyro
+- Statsmodels
+- Torch
+- Statistics
 
-Other notes:
-* Above, there is a link to a video abstract.  You **must** create a **short** video summary of your work.  No more than 5 minutes.
-* Use links in the author's section to link you your own websites, Linkedin, online portfolios, etc.
+R:
+- bnlearn
+- Rgraphviz
