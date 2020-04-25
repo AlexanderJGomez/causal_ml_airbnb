@@ -89,4 +89,4 @@ def pull_addresses_0719(old_listings, listings, write_file_name):
 listings_0320 = pd.read_csv("data/listings_0320.csv")
 listings_0719 = pd.read_csv("data/listings_0719.csv")
 pull_addresses_0320(listings_0320, 'data/augmented_data_0320.csv')
-pull_addresses_0719(listings_0320, listings_0719, "data/augmented_data_sc_0719.csv")
+pull_addresses_0719(listings_0320, listings_0719, "data/augmented_data_0719.csv")
